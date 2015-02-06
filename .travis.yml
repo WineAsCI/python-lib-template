@@ -5,6 +5,5 @@ env:
 before_install:
   - "./.travis-setup.sh"
 install:
-  - git clone https://github.com/boto/boto.git
-  - /opt/wine-staging/bin/wine 'C:\Python27\Scripts\pip.exe' install -r boto/requirements.txt
-script: cd boto && /opt/wine-staging/bin/wine 'C:\Python27\Python.exe' tests/test.py default
+  - git clone https://github.com/zopefoundation/zope.interface.git
+script: cd zope.interface && /opt/wine-staging/bin/wine 'C:\Python27\Python.exe' setup.py test
