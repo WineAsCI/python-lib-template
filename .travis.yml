@@ -1,9 +1,13 @@
 language: python
 python: 2.7
 env:
+  - WINEENV=py26
   - WINEENV=py27
+  - WINEENV=py33
+  - WINEENV=py34
+  - WINEENV=pypy
 before_install:
   - "./.travis-setup.sh"
 install:
   - git clone https://github.com/zopefoundation/zope.interface.git
-script: cd zope.interface && /opt/wine-staging/bin/wine 'C:\Python27\Python.exe' setup.py test
+script: cd zope.interface && ../_python setup.py test

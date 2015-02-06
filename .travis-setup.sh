@@ -2,15 +2,61 @@ sudo add-apt-repository -y ppa:pipelight/daily
 sudo apt-get -qy update
 sudo apt-get install -y wine-staging winbind
 
+PYTHON="$EXECDIR/python.exe"
+PIP="$EXECDIR/Scripts/pip.exe"
+
+case "$WINEENV" in
+    py26)
+        VERSION=2.6.9
+        INSTALLER_URL="https://www.python.org/ftp/python/$VERSION/python-$VERSION.msi"
+        INSTALL_COMMAND="wine msiexec /i python-$VERSION.msi"
+        EXECDIR="$HOME/.wine/drive_c/Python26"
+        ;;
+    py27)
+        VERSION=2.7.9
+        INSTALLER_URL="https://www.python.org/ftp/python/$VERSION/python-$VERSION.msi"
+        INSTALL_COMMAND="wine msiexec /i python-$VERSION.msi"
+        EXECDIR="$HOME/.wine/drive_c/Python27"
+        MORE_COMMANDS='wget http://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi; wine msiexec /i VCForPython27.msi'
+        ;;
+    py33)
+        VERSION=3.3.6
+        INSTALLER_URL="https://www.python.org/ftp/python/$VERSION/python-$VERSION.msi"
+        INSTALL_COMMAND="wine msiexec /i python-$VERSION.msi"
+        EXECDIR="$HOME/.wine/drive_c/Python33"
+        ;;
+    py34)
+        VERSION=3.4.2
+        INSTALLER_URL="https://www.python.org/ftp/python/$VERSION/python-$VERSION.msi"
+        INSTALL_COMMAND="wine msiexec /i python-$VERSION.msi"
+        EXECDIR="$HOME/.wine/drive_c/Python34"
+        ;;
+    pypy)
+        VERSION=2.5.0
+        INSTALLER_URL="https://bitbucket.org/pypy/pypy/downloads/pypy-$VERSION-win32.zip"
+        INSTALL_COMMAND="unzip pypy-$VERSION-win32.zip"
+        EXECDIR="$PWD/pypy-$VERSION-win32"
+        PYTHON="$EXECDIR/pypy.exe"
+        ;;
+    *)
+        echo "WINEENV $WINEENV not supported."
+        exit 1
+esac
+
+export PATH="/opt/wine-staging/bin:$PATH"
+
 #wget http://www.orbitals.com/programs/py.exe
-wget https://www.python.org/ftp/python/2.7.9/python-2.7.9.msi
-WINEARCH=win32 /opt/wine-staging/bin/wine msiexec /i python-2.7.9.msi
+wget $INSTALLER_URL
+WINEARCH=win32 wineboot
+$INSTALL_COMMAND
 
-sed -i 's/_windows_cert_stores = .*/_windows_cert_stores = ("ROOT",)/' "$HOME/.wine/drive_c/Python27/Lib/ssl.py"
+sed -i 's/_windows_cert_stores = .*/_windows_cert_stores = ("ROOT",)/' "$EXECDIR/Lib/ssl.py"
 
-wget http://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi
-/opt/wine-staging/bin/wine msiexec /i VCForPython27.msi
+$MORE_COMMANDS
 
-wget https://bootstrap.pypa.io/ez_setup.py -O - | /opt/wine-staging/bin/wine 'C:\Python27\Python.exe'
-/opt/wine-staging/bin/wine 'C:\Python27\Scripts\easy_install.exe' pip
+echo "/opt/wine-staging/bin/wine $PYTHON" > _python
+echo "/opt/wine-staging/bin/wine $PIP" > _pip
+chmod +x _python _pip
 
+wget https://bootstrap.pypa.io/ez_setup.py -O - | ./_python
+./_python "$EXECDIR/Scripts/easy_install.exe" pip
