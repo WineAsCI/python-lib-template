@@ -5,5 +5,7 @@ env:
 before_install:
   - "./.travis-setup.sh"
 install:
-  - wget https://bootstrap.pypa.io/ez_setup.py -O - | wine py.exe
-script: wine py.exe tests/test.py default
+  - wget https://bootstrap.pypa.io/ez_setup.py -O - | /opt/wine-staging/bin/wine py.exe
+  - git clone https://github.com/boto/boto.git
+  - /opt/wine-staging/bin/wine py.exe /usr/local/bin/pip install -r boto/requirements.txt
+script: cd boto && /opt/wine-staging/bin/wine py.exe tests/test.py default
