@@ -59,7 +59,7 @@ eval $INSTALL_COMMAND
 
 sed -i 's/_windows_cert_stores = .*/_windows_cert_stores = ("ROOT",)/' "$EXECDIR/Lib/ssl.py"
 
-$MORE_COMMANDS
+eval $MORE_COMMANDS
 
 echo "/opt/wine-staging/bin/wine $PYTHON" '$@' > _python
 echo "/opt/wine-staging/bin/wine $EASY_INSTALL" '$@' > _easy_install
