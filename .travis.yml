@@ -1,7 +1,7 @@
 language: python
 python: 2.7
 env:
-  - WINEENV=py26
+  - WINEENV=py26 XVFB_CMD=xvfb-run
   - WINEENV=py27
   - WINEENV=py33
   - WINEENV=py34
@@ -13,4 +13,4 @@ before_install:
   - "./.travis-setup.sh"
 install:
   - git clone https://github.com/zopefoundation/zope.interface.git
-script: cd zope.interface && ../_python setup.py test
+script: cd zope.interface && $XVFB_CMD ../_python setup.py test
