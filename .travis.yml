@@ -7,7 +7,7 @@ before_install:
 install:
   - wget https://bootstrap.pypa.io/ez_setup.py
   - sed -i -e "37iimport ssl" -e '37issl.SSLContext._windows_cert_stores = ("ROOT",)' ez_setup.py
-  - /opt/wine-staging/bin/wine py.exe ez_setup.py
+  - /opt/wine-staging/bin/wine 'C:\Python27\Python.exe' ez_setup.py
   - git clone https://github.com/boto/boto.git
-  - /opt/wine-staging/bin/wine py.exe /usr/local/bin/pip install -r boto/requirements.txt
-script: cd boto && /opt/wine-staging/bin/wine py.exe tests/test.py default
+  - /opt/wine-staging/bin/wine 'C:\Python27\Python.exe' /usr/local/bin/pip install -r boto/requirements.txt
+script: cd boto && /opt/wine-staging/bin/wine 'C:\Python27\Python.exe' tests/test.py default
