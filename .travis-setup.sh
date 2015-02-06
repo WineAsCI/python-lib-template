@@ -35,6 +35,7 @@ case "$WINEENV" in
         INSTALL_COMMAND="unzip pypy-$VERSION-win32.zip"
         EXECDIR="$PWD/pypy-$VERSION-win32"
         PYTHON="$EXECDIR/pypy.exe"
+        PIP="$EXECDIR/bin/pip.exe"
         ;;
     *)
         echo "WINEENV $WINEENV not supported."
