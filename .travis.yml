@@ -1,0 +1,9 @@
+language: python
+python: 2.7
+env:
+  - WINEENV=py27
+before_install:
+  - "./.travis-setup.sh"
+install:
+  - wget https://bootstrap.pypa.io/ez_setup.py -O - | wine py.exe
+script: wine py.exe tests/test.py default
