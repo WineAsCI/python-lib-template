@@ -60,4 +60,4 @@ echo "/opt/wine-staging/bin/wine $PIP" > _pip
 chmod +x _python _pip
 
 wget https://bootstrap.pypa.io/ez_setup.py -O - | ./_python
-./_python "$EXECDIR/Scripts/easy_install.exe" pip
+wine "$EXECDIR/Scripts/easy_install.exe" pip
