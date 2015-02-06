@@ -1,13 +1,11 @@
+#!/bin/bash
 sudo add-apt-repository -y ppa:pipelight/daily
 sudo apt-get -qy update
 sudo apt-get install -y wine-staging winbind
 
-PYTHON="$EXECDIR/python.exe"
-PIP="$EXECDIR/Scripts/pip.exe"
-
 case "$WINEENV" in
     py26)
-        VERSION=2.6.9
+        VERSION=2.6.6
         INSTALLER_URL="https://www.python.org/ftp/python/$VERSION/python-$VERSION.msi"
         INSTALL_COMMAND="wine msiexec /i python-$VERSION.msi"
         EXECDIR="$HOME/.wine/drive_c/Python26"
@@ -42,6 +40,9 @@ case "$WINEENV" in
         echo "WINEENV $WINEENV not supported."
         exit 1
 esac
+
+[[ -z "$PYTHON" ]] && PYTHON="$EXECDIR/python.exe"
+[[ -z "$PIP" ]] && PIP="$EXECDIR/Scripts/pip.exe"
 
 export PATH="/opt/wine-staging/bin:$PATH"
 
