@@ -9,7 +9,7 @@ case "$WINEENV" in
         INSTALLER_URL="https://www.python.org/ftp/python/$VERSION/python-$VERSION.msi"
         INSTALL_COMMAND="wine msiexec /i python-$VERSION.msi"
         EXECDIR="$HOME/.wine/drive_c/Python26"
-        MORE_COMMANDS='wget http://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi; wine msiexec /i VCForPython27.msi'
+        MORE_COMMANDS='./winetricks -q vcrun2008; wget http://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi; wine msiexec /i VCForPython27.msi'
         # Crash: https://travis-ci.org/WineAsCI/python-lib-template/jobs/49725679#L1789
         ;;
     py27)
