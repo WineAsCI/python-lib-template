@@ -53,9 +53,14 @@ esac
 
 export PATH="/opt/wine-staging/bin:$PATH"
 
+WINEARCH=win32 wineboot
+
+wget http://winetricks.org/winetricks
+chmod +x winetricks
+./winetricks nocrashdialog
+
 #wget http://www.orbitals.com/programs/py.exe
 wget $INSTALLER_URL
-WINEARCH=win32 wineboot
 eval $INSTALL_COMMAND
 
 sed -i 's/_windows_cert_stores = .*/_windows_cert_stores = ("ROOT",)/' "$EXECDIR/Lib/ssl.py"
