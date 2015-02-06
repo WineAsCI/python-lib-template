@@ -6,6 +6,9 @@ env:
   - WINEENV=py33
   - WINEENV=py34
   - WINEENV=pypy
+matrix:
+  allow_failures:
+    - env: WINEENV=pypy
 before_install:
   - "./.travis-setup.sh"
 install:
