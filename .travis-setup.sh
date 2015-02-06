@@ -39,6 +39,7 @@ case "$WINEENV" in
         EXECDIR="$PWD/pypy-$VERSION-win32"
         PYTHON="$EXECDIR/pypy.exe"
         PIP="$EXECDIR/bin/pip.exe"
+        EASY_INSTALL="$EXECDIR/bin/easy_install.exe"
         ;;
     *)
         echo "WINEENV $WINEENV not supported."
@@ -46,6 +47,7 @@ case "$WINEENV" in
 esac
 
 [[ -z "$PYTHON" ]] && PYTHON="$EXECDIR/python.exe"
+[[ -z "$EASY_INSTALL" ]] && EASY_INSTALL="$EXECDIR/Scripts/easy_install.exe"
 [[ -z "$PIP" ]] && PIP="$EXECDIR/Scripts/pip.exe"
 
 export PATH="/opt/wine-staging/bin:$PATH"
@@ -60,8 +62,9 @@ sed -i 's/_windows_cert_stores = .*/_windows_cert_stores = ("ROOT",)/' "$EXECDIR
 $MORE_COMMANDS
 
 echo "/opt/wine-staging/bin/wine $PYTHON" '$@' > _python
+echo "/opt/wine-staging/bin/wine $EASY_INSTALL" '$@' > _easy_install
 echo "/opt/wine-staging/bin/wine $PIP" '$@' > _pip
-chmod +x _python _pip
+chmod +x _python _easy_install _pip
 
 wget https://bootstrap.pypa.io/ez_setup.py -O - | ./_python
-wine "$EXECDIR/Scripts/easy_install.exe" pip
+./_easy_install pip
