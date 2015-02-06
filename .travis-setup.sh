@@ -18,7 +18,7 @@ case "$WINEENV" in
         MORE_COMMANDS='wget http://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi; wine msiexec /i VCForPython27.msi'
         ;;
     py33)
-        VERSION=3.3.6
+        VERSION=3.3.5
         INSTALLER_URL="https://www.python.org/ftp/python/$VERSION/python-$VERSION.msi"
         INSTALL_COMMAND="wine msiexec /i python-$VERSION.msi"
         EXECDIR="$HOME/.wine/drive_c/Python33"
@@ -55,8 +55,8 @@ sed -i 's/_windows_cert_stores = .*/_windows_cert_stores = ("ROOT",)/' "$EXECDIR
 
 $MORE_COMMANDS
 
-echo "/opt/wine-staging/bin/wine $PYTHON" > _python
-echo "/opt/wine-staging/bin/wine $PIP" > _pip
+echo "/opt/wine-staging/bin/wine $PYTHON" '$@' > _python
+echo "/opt/wine-staging/bin/wine $PIP" '$@' > _pip
 chmod +x _python _pip
 
 wget https://bootstrap.pypa.io/ez_setup.py -O - | ./_python
